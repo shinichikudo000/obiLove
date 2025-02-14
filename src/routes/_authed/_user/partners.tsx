@@ -6,13 +6,15 @@ import {
 } from '@tanstack/react-router'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/_authed/partners')({
+export const Route = createFileRoute('/_authed/_user/partners')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const router = useRouter()
-  const [ activeUrl, setActiveUrl ] = useState<string>(router.state.location.pathname)
+  const [activeUrl, setActiveUrl] = useState<string>(
+    router.state.location.pathname,
+  )
   const items = [
     {
       title: 'All',
