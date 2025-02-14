@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormItem } from '@/types/components/formFields/form';
 import TextAreaInput from '@/components/formFields/TextAreaInput';
 
-const ObituaryPageContent = ({ changeStep, currentStep }: { changeStep: (step: number) => void; currentStep: number }) => {
+const ObituaryPageContent = ({ step, changeStep, currentStep }: { step: number, changeStep: (step: number) => void; currentStep: number }) => {
   const { control } = useFormContext<TObituaryFormSchema>();
   
   const formItems: FormItem[] = [
@@ -30,7 +30,7 @@ const ObituaryPageContent = ({ changeStep, currentStep }: { changeStep: (step: n
             ) : null}
           </div>
         ))}
-        <FormButtons changeStep={changeStep} currentStep={currentStep} />
+        <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} />
       </form>
     </>
   );

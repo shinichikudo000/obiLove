@@ -1,6 +1,10 @@
 import { z } from "zod";
 
 export const obituaryFormSchema = z.object({
+  termsAndConditions: z.literal(true, {
+    errorMap: () => ({ message: "You must agree to the terms and conditions." }),
+  }),
+
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
@@ -25,6 +29,11 @@ export const obituaryFormSchema = z.object({
   obituaryText: z.string().min(10, "Obituary text must be at least 10 characters"),
   images: z.array(z.string().url()).optional(),
   videos: z.array(z.string().url()).max(1, "Only one video URL is allowed").optional(),
+
+  deathCertificate: z.array(z.string().url()).max(1, "Only one video URL is allowed").optional(),
+  baranggayCertificate: z.array(z.string().url()).max(1, "Only one video URL is allowed").optional(),
+  governnmetId: z.array(z.string().url()).max(1, "Only one video URL is allowed").optional(),
+  selfiePhoto: z.array(z.string().url()).max(1, "Only one video URL is allowed").optional(),
 });
 
 

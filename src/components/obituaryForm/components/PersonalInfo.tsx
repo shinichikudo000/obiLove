@@ -4,7 +4,7 @@ import FormButtons from '../../formFields/FormButtons';
 import TextInput from '../../formFields/TextInput';
 import { FormItem } from '@/types/components/formFields/form';
 
-const PersonalInfo = ({ changeStep, currentStep }: { changeStep: (step: number) => void; currentStep: number }) => {
+const PersonalInfo = ({ step, changeStep, currentStep }: { step: number, changeStep: (step: number) => void; currentStep: number }) => {
   const { control, watch } = useFormContext<TObituaryFormSchema>();
   
   const formItems: FormItem[] = [
@@ -24,7 +24,7 @@ const PersonalInfo = ({ changeStep, currentStep }: { changeStep: (step: number) 
         )
       ))}
 
-      <FormButtons changeStep={changeStep} currentStep={currentStep} isDisabled={isNextDisabled} />
+      <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} isDisabled={isNextDisabled} />
     </>
   );
 };

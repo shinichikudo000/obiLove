@@ -11,6 +11,8 @@ import ObituaryPageContent from './components/ObituaryPageContent';
 import ReviewForm from './components/ReviewForm';
 import { useUserStore } from '@/store/userStore';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import TermsAndCondition from './components/TermsAndCondition';
+import DonationFiles from './components/DonationFiles';
 
 const ObituaryForm = () => {
   const user = useUserStore((state) => state.user);
@@ -43,10 +45,12 @@ const ObituaryForm = () => {
   const { isMobile } = useWindowSize();
 
   const formSteps = [
-    { step: 1, component: PersonalInfo, description: 'Provide your personal details for contact and verification.' },
-    { step: 2, component: DeceasedInfo, description: 'Enter essential information about the deceased.' },
-    { step: 3, component: ObituaryPageContent, description: 'Compose and customize the obituary content.' },
-    { step: 4, component: ReviewForm, description: 'Review and confirm all details before submission.' }
+    { step: 1, component: TermsAndCondition, description: 'Read and ' },
+    { step: 2, component: PersonalInfo, description: 'Provide your personal details for contact and verification.' },
+    { step: 3, component: DeceasedInfo, description: 'Enter essential information about the deceased.' },
+    { step: 4, component: ObituaryPageContent, description: 'Compose and customize the obituary content.' },
+    { step: 5, component: DonationFiles, description: 'Add files to receive donations' },
+    { step: 6, component: ReviewForm, description: 'Review and confirm all details before submission.' }
   ];
 
   const changeStep = (step: number) => {
@@ -54,6 +58,7 @@ const ObituaryForm = () => {
     setProgress(((step - 1) / (formSteps.length - 1)) * 100);
   };
 
+  const step = formSteps.length
   return (
     <Dialog>
       <DialogTrigger>Create</DialogTrigger>
@@ -70,7 +75,7 @@ const ObituaryForm = () => {
 
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(() => console.log('Submitting...'))} className="flex flex-col gap-2">
-            {React.createElement(formSteps[currentStep - 1].component, { changeStep, currentStep })}
+            {React.createElement(formSteps[currentStep - 1].component, { changeStep, currentStep, step })}
           </form>
         </FormProvider>
         
