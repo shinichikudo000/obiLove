@@ -14,18 +14,14 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignUpImport } from './routes/signUp'
 import { Route as SignInImport } from './routes/signIn'
 import { Route as AuthedImport } from './routes/_authed'
-import { Route as IndexImport } from './routes/index'
 import { Route as AuthedUserImport } from './routes/_authed/_user'
 import { Route as AuthedAdminImport } from './routes/_authed/_admin'
-import { Route as ObituaryIdIndexImport } from './routes/obituary_/$id/index'
+import { Route as AuthedUserIndexImport } from './routes/_authed/_user/index'
 import { Route as AuthedUserSettingsImport } from './routes/_authed/_user/settings'
 import { Route as AuthedUserPartnersImport } from './routes/_authed/_user/partners'
 import { Route as AuthedUserObituaryImport } from './routes/_authed/_user/obituary'
 import { Route as AuthedUserDashboardImport } from './routes/_authed/_user/dashboard'
-import { Route as AuthedUserPartnersIndexImport } from './routes/_authed/_user/partners/index'
-import { Route as AuthedUserObituaryIndexImport } from './routes/_authed/_user/obituary/index'
-import { Route as AuthedUserPartnersFuneralparlorsImport } from './routes/_authed/_user/partners/funeral_parlors'
-import { Route as AuthedUserPartnersFuneralchapelsImport } from './routes/_authed/_user/partners/funeral_chapels'
+import { Route as AuthedUserPartnersFuneralparlorsImport } from './routes/_authed/_user/partners_/funeral_parlors'
 
 // Create/Update Routes
 
@@ -46,12 +42,6 @@ const AuthedRoute = AuthedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AuthedUserRoute = AuthedUserImport.update({
   id: '/_user',
   getParentRoute: () => AuthedRoute,
@@ -62,10 +52,10 @@ const AuthedAdminRoute = AuthedAdminImport.update({
   getParentRoute: () => AuthedRoute,
 } as any)
 
-const ObituaryIdIndexRoute = ObituaryIdIndexImport.update({
-  id: '/obituary_/$id/',
-  path: '/obituary/$id/',
-  getParentRoute: () => rootRoute,
+const AuthedUserIndexRoute = AuthedUserIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedUserRoute,
 } as any)
 
 const AuthedUserSettingsRoute = AuthedUserSettingsImport.update({
@@ -92,43 +82,17 @@ const AuthedUserDashboardRoute = AuthedUserDashboardImport.update({
   getParentRoute: () => AuthedUserRoute,
 } as any)
 
-const AuthedUserPartnersIndexRoute = AuthedUserPartnersIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedUserPartnersRoute,
-} as any)
-
-const AuthedUserObituaryIndexRoute = AuthedUserObituaryIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedUserObituaryRoute,
-} as any)
-
 const AuthedUserPartnersFuneralparlorsRoute =
   AuthedUserPartnersFuneralparlorsImport.update({
-    id: '/funeral_parlors',
-    path: '/funeral_parlors',
-    getParentRoute: () => AuthedUserPartnersRoute,
-  } as any)
-
-const AuthedUserPartnersFuneralchapelsRoute =
-  AuthedUserPartnersFuneralchapelsImport.update({
-    id: '/funeral_chapels',
-    path: '/funeral_chapels',
-    getParentRoute: () => AuthedUserPartnersRoute,
+    id: '/partners_/funeral_parlors',
+    path: '/partners/funeral_parlors',
+    getParentRoute: () => AuthedUserRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/_authed': {
       id: '/_authed'
       path: ''
@@ -192,84 +156,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedUserSettingsImport
       parentRoute: typeof AuthedUserImport
     }
-    '/obituary_/$id/': {
-      id: '/obituary_/$id/'
-      path: '/obituary/$id'
-      fullPath: '/obituary/$id'
-      preLoaderRoute: typeof ObituaryIdIndexImport
-      parentRoute: typeof rootRoute
+    '/_authed/_user/': {
+      id: '/_authed/_user/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedUserIndexImport
+      parentRoute: typeof AuthedUserImport
     }
-    '/_authed/_user/partners/funeral_chapels': {
-      id: '/_authed/_user/partners/funeral_chapels'
-      path: '/funeral_chapels'
-      fullPath: '/partners/funeral_chapels'
-      preLoaderRoute: typeof AuthedUserPartnersFuneralchapelsImport
-      parentRoute: typeof AuthedUserPartnersImport
-    }
-    '/_authed/_user/partners/funeral_parlors': {
-      id: '/_authed/_user/partners/funeral_parlors'
-      path: '/funeral_parlors'
+    '/_authed/_user/partners_/funeral_parlors': {
+      id: '/_authed/_user/partners_/funeral_parlors'
+      path: '/partners/funeral_parlors'
       fullPath: '/partners/funeral_parlors'
       preLoaderRoute: typeof AuthedUserPartnersFuneralparlorsImport
-      parentRoute: typeof AuthedUserPartnersImport
-    }
-    '/_authed/_user/obituary/': {
-      id: '/_authed/_user/obituary/'
-      path: '/'
-      fullPath: '/obituary/'
-      preLoaderRoute: typeof AuthedUserObituaryIndexImport
-      parentRoute: typeof AuthedUserObituaryImport
-    }
-    '/_authed/_user/partners/': {
-      id: '/_authed/_user/partners/'
-      path: '/'
-      fullPath: '/partners/'
-      preLoaderRoute: typeof AuthedUserPartnersIndexImport
-      parentRoute: typeof AuthedUserPartnersImport
+      parentRoute: typeof AuthedUserImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthedUserObituaryRouteChildren {
-  AuthedUserObituaryIndexRoute: typeof AuthedUserObituaryIndexRoute
-}
-
-const AuthedUserObituaryRouteChildren: AuthedUserObituaryRouteChildren = {
-  AuthedUserObituaryIndexRoute: AuthedUserObituaryIndexRoute,
-}
-
-const AuthedUserObituaryRouteWithChildren =
-  AuthedUserObituaryRoute._addFileChildren(AuthedUserObituaryRouteChildren)
-
-interface AuthedUserPartnersRouteChildren {
-  AuthedUserPartnersFuneralchapelsRoute: typeof AuthedUserPartnersFuneralchapelsRoute
-  AuthedUserPartnersFuneralparlorsRoute: typeof AuthedUserPartnersFuneralparlorsRoute
-  AuthedUserPartnersIndexRoute: typeof AuthedUserPartnersIndexRoute
-}
-
-const AuthedUserPartnersRouteChildren: AuthedUserPartnersRouteChildren = {
-  AuthedUserPartnersFuneralchapelsRoute: AuthedUserPartnersFuneralchapelsRoute,
-  AuthedUserPartnersFuneralparlorsRoute: AuthedUserPartnersFuneralparlorsRoute,
-  AuthedUserPartnersIndexRoute: AuthedUserPartnersIndexRoute,
-}
-
-const AuthedUserPartnersRouteWithChildren =
-  AuthedUserPartnersRoute._addFileChildren(AuthedUserPartnersRouteChildren)
-
 interface AuthedUserRouteChildren {
   AuthedUserDashboardRoute: typeof AuthedUserDashboardRoute
-  AuthedUserObituaryRoute: typeof AuthedUserObituaryRouteWithChildren
-  AuthedUserPartnersRoute: typeof AuthedUserPartnersRouteWithChildren
+  AuthedUserObituaryRoute: typeof AuthedUserObituaryRoute
+  AuthedUserPartnersRoute: typeof AuthedUserPartnersRoute
   AuthedUserSettingsRoute: typeof AuthedUserSettingsRoute
+  AuthedUserIndexRoute: typeof AuthedUserIndexRoute
+  AuthedUserPartnersFuneralparlorsRoute: typeof AuthedUserPartnersFuneralparlorsRoute
 }
 
 const AuthedUserRouteChildren: AuthedUserRouteChildren = {
   AuthedUserDashboardRoute: AuthedUserDashboardRoute,
-  AuthedUserObituaryRoute: AuthedUserObituaryRouteWithChildren,
-  AuthedUserPartnersRoute: AuthedUserPartnersRouteWithChildren,
+  AuthedUserObituaryRoute: AuthedUserObituaryRoute,
+  AuthedUserPartnersRoute: AuthedUserPartnersRoute,
   AuthedUserSettingsRoute: AuthedUserSettingsRoute,
+  AuthedUserIndexRoute: AuthedUserIndexRoute,
+  AuthedUserPartnersFuneralparlorsRoute: AuthedUserPartnersFuneralparlorsRoute,
 }
 
 const AuthedUserRouteWithChildren = AuthedUserRoute._addFileChildren(
@@ -290,58 +211,47 @@ const AuthedRouteWithChildren =
   AuthedRoute._addFileChildren(AuthedRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '': typeof AuthedUserRouteWithChildren
   '/signIn': typeof SignInRoute
   '/signUp': typeof SignUpRoute
   '/dashboard': typeof AuthedUserDashboardRoute
-  '/obituary': typeof AuthedUserObituaryRouteWithChildren
-  '/partners': typeof AuthedUserPartnersRouteWithChildren
+  '/obituary': typeof AuthedUserObituaryRoute
+  '/partners': typeof AuthedUserPartnersRoute
   '/settings': typeof AuthedUserSettingsRoute
-  '/obituary/$id': typeof ObituaryIdIndexRoute
-  '/partners/funeral_chapels': typeof AuthedUserPartnersFuneralchapelsRoute
+  '/': typeof AuthedUserIndexRoute
   '/partners/funeral_parlors': typeof AuthedUserPartnersFuneralparlorsRoute
-  '/obituary/': typeof AuthedUserObituaryIndexRoute
-  '/partners/': typeof AuthedUserPartnersIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof AuthedUserRouteWithChildren
+  '': typeof AuthedAdminRoute
   '/signIn': typeof SignInRoute
   '/signUp': typeof SignUpRoute
   '/dashboard': typeof AuthedUserDashboardRoute
+  '/obituary': typeof AuthedUserObituaryRoute
+  '/partners': typeof AuthedUserPartnersRoute
   '/settings': typeof AuthedUserSettingsRoute
-  '/obituary/$id': typeof ObituaryIdIndexRoute
-  '/partners/funeral_chapels': typeof AuthedUserPartnersFuneralchapelsRoute
+  '/': typeof AuthedUserIndexRoute
   '/partners/funeral_parlors': typeof AuthedUserPartnersFuneralparlorsRoute
-  '/obituary': typeof AuthedUserObituaryIndexRoute
-  '/partners': typeof AuthedUserPartnersIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/signIn': typeof SignInRoute
   '/signUp': typeof SignUpRoute
   '/_authed/_admin': typeof AuthedAdminRoute
   '/_authed/_user': typeof AuthedUserRouteWithChildren
   '/_authed/_user/dashboard': typeof AuthedUserDashboardRoute
-  '/_authed/_user/obituary': typeof AuthedUserObituaryRouteWithChildren
-  '/_authed/_user/partners': typeof AuthedUserPartnersRouteWithChildren
+  '/_authed/_user/obituary': typeof AuthedUserObituaryRoute
+  '/_authed/_user/partners': typeof AuthedUserPartnersRoute
   '/_authed/_user/settings': typeof AuthedUserSettingsRoute
-  '/obituary_/$id/': typeof ObituaryIdIndexRoute
-  '/_authed/_user/partners/funeral_chapels': typeof AuthedUserPartnersFuneralchapelsRoute
-  '/_authed/_user/partners/funeral_parlors': typeof AuthedUserPartnersFuneralparlorsRoute
-  '/_authed/_user/obituary/': typeof AuthedUserObituaryIndexRoute
-  '/_authed/_user/partners/': typeof AuthedUserPartnersIndexRoute
+  '/_authed/_user/': typeof AuthedUserIndexRoute
+  '/_authed/_user/partners_/funeral_parlors': typeof AuthedUserPartnersFuneralparlorsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | ''
     | '/signIn'
     | '/signUp'
@@ -349,27 +259,21 @@ export interface FileRouteTypes {
     | '/obituary'
     | '/partners'
     | '/settings'
-    | '/obituary/$id'
-    | '/partners/funeral_chapels'
+    | '/'
     | '/partners/funeral_parlors'
-    | '/obituary/'
-    | '/partners/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | ''
     | '/signIn'
     | '/signUp'
     | '/dashboard'
-    | '/settings'
-    | '/obituary/$id'
-    | '/partners/funeral_chapels'
-    | '/partners/funeral_parlors'
     | '/obituary'
     | '/partners'
+    | '/settings'
+    | '/'
+    | '/partners/funeral_parlors'
   id:
     | '__root__'
-    | '/'
     | '/_authed'
     | '/signIn'
     | '/signUp'
@@ -379,28 +283,21 @@ export interface FileRouteTypes {
     | '/_authed/_user/obituary'
     | '/_authed/_user/partners'
     | '/_authed/_user/settings'
-    | '/obituary_/$id/'
-    | '/_authed/_user/partners/funeral_chapels'
-    | '/_authed/_user/partners/funeral_parlors'
-    | '/_authed/_user/obituary/'
-    | '/_authed/_user/partners/'
+    | '/_authed/_user/'
+    | '/_authed/_user/partners_/funeral_parlors'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
-  ObituaryIdIndexRoute: typeof ObituaryIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
-  ObituaryIdIndexRoute: ObituaryIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -413,15 +310,10 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/_authed",
         "/signIn",
-        "/signUp",
-        "/obituary_/$id/"
+        "/signUp"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
     },
     "/_authed": {
       "filePath": "_authed.tsx",
@@ -447,7 +339,9 @@ export const routeTree = rootRoute
         "/_authed/_user/dashboard",
         "/_authed/_user/obituary",
         "/_authed/_user/partners",
-        "/_authed/_user/settings"
+        "/_authed/_user/settings",
+        "/_authed/_user/",
+        "/_authed/_user/partners_/funeral_parlors"
       ]
     },
     "/_authed/_user/dashboard": {
@@ -456,42 +350,23 @@ export const routeTree = rootRoute
     },
     "/_authed/_user/obituary": {
       "filePath": "_authed/_user/obituary.tsx",
-      "parent": "/_authed/_user",
-      "children": [
-        "/_authed/_user/obituary/"
-      ]
+      "parent": "/_authed/_user"
     },
     "/_authed/_user/partners": {
       "filePath": "_authed/_user/partners.tsx",
-      "parent": "/_authed/_user",
-      "children": [
-        "/_authed/_user/partners/funeral_chapels",
-        "/_authed/_user/partners/funeral_parlors",
-        "/_authed/_user/partners/"
-      ]
+      "parent": "/_authed/_user"
     },
     "/_authed/_user/settings": {
       "filePath": "_authed/_user/settings.tsx",
       "parent": "/_authed/_user"
     },
-    "/obituary_/$id/": {
-      "filePath": "obituary_/$id/index.tsx"
+    "/_authed/_user/": {
+      "filePath": "_authed/_user/index.tsx",
+      "parent": "/_authed/_user"
     },
-    "/_authed/_user/partners/funeral_chapels": {
-      "filePath": "_authed/_user/partners/funeral_chapels.tsx",
-      "parent": "/_authed/_user/partners"
-    },
-    "/_authed/_user/partners/funeral_parlors": {
-      "filePath": "_authed/_user/partners/funeral_parlors.tsx",
-      "parent": "/_authed/_user/partners"
-    },
-    "/_authed/_user/obituary/": {
-      "filePath": "_authed/_user/obituary/index.tsx",
-      "parent": "/_authed/_user/obituary"
-    },
-    "/_authed/_user/partners/": {
-      "filePath": "_authed/_user/partners/index.tsx",
-      "parent": "/_authed/_user/partners"
+    "/_authed/_user/partners_/funeral_parlors": {
+      "filePath": "_authed/_user/partners_/funeral_parlors.tsx",
+      "parent": "/_authed/_user"
     }
   }
 }

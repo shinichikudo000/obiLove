@@ -1,15 +1,16 @@
-import AppSideBar from "../components/appSideBar/AppSideBar"
-import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
+import NavBar from "@/components/navBar/NavBar"
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   // pass sidebar routes props if user or admin
   return (
-    <SidebarProvider>
-      <AppSideBar />
-      <main>
-        <SidebarTrigger />
+    <div className="w-full h-full">
+      <NavBar/>
+      <main className="h-[90vh]">
         {children}
       </main>
-    </SidebarProvider>
+    </div>
   )
 }
+
+
+// tailwind to calculate the h- of the main

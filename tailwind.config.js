@@ -63,7 +63,10 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
-  		}
+  		},
+		boxShadow: {
+			'shadow': "var(--shadow)",
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

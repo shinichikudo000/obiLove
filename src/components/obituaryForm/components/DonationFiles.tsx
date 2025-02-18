@@ -17,7 +17,6 @@ const DonationFiles = ({ step, changeStep, currentStep }: { step: number, change
     return (
       <>
         <h2 className="text-2xl text-center">For Donation</h2>
-        <form>
           {formItems.map((item) => (
             <div key={item.name}>
               {item.type === "file" ? (
@@ -29,7 +28,6 @@ const DonationFiles = ({ step, changeStep, currentStep }: { step: number, change
             </div>
           ))}
           <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} />
-        </form>
       </>
     );
   }

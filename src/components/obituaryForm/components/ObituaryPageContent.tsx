@@ -17,7 +17,6 @@ const ObituaryPageContent = ({ step, changeStep, currentStep }: { step: number, 
   return (
     <>
       <h2 className="text-2xl text-center">Obituary Page Content</h2>
-      <form>
         {formItems.map((item) => (
           <div key={item.name}>
             {item.type === "file" ? (
@@ -31,7 +30,6 @@ const ObituaryPageContent = ({ step, changeStep, currentStep }: { step: number, 
           </div>
         ))}
         <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} />
-      </form>
     </>
   );
 }

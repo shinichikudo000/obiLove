@@ -13,30 +13,29 @@ import { useUserStore } from '@/store/userStore';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import TermsAndCondition from './components/TermsAndCondition';
 import DonationFiles from './components/DonationFiles';
+import { Obituary, useObituaryStore } from '@/store/obituaryStore';
 
-const ObituaryForm = () => {
+const ObituaryForm = ({ initialData, onClose }: { initialData?: Obituary, onClose: () => void }) => {
   const user = useUserStore((state) => state.user);
 
   const form = useForm<TObituaryFormSchema>({
     resolver: zodResolver(obituaryFormSchema),
     defaultValues: {
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      email: user?.email || '',
-      phoneNumber: user?.phoneNumber || '',
-      address: user?.address || '',
+      firstName: initialData?.firstName || user?.firstName || '',
+      lastName: initialData?.lastName || user?.lastName || '',
+      email: initialData?.email || user?.email || '',
+      phoneNumber: initialData?.phoneNumber || user?.phoneNumber || '',
+      address: initialData?.address || user?.address || '',
 
-      deceasedFirstName: '',
-      deceasedLastName: '',
-      // deceasedBirthDate: new Date(),
-      // dateOfPassing: new Date(),
-      wakeLocation: '',
-      familyMembers: [],
-      funeralServiceProvider: [],
+      deceasedFirstName: initialData?.deceasedFirstName || '',
+      deceasedLastName: initialData?.deceasedLastName || '',
+      wakeLocation: initialData?.wakeLocation || '',
+      familyMembers: initialData?.familyMembers || [],
+      funeralServiceProvider: initialData?.funeralServiceProvider || [],
 
-      images: [],
-      videos: [],
-      obituaryText: ''
+      images: initialData?.images || [],
+      videos: initialData?.videos || [],
+      obituaryText: initialData?.obituaryText || ''
     }
   });
   
@@ -59,13 +58,16 @@ const ObituaryForm = () => {
   };
 
   const step = formSteps.length
+  const addObituary = useObituaryStore((state) => state.addObituary); 
+  const updateObituary = useObituaryStore((state) => state.updateObituary);
+
   return (
     <Dialog>
       <DialogTrigger>Create</DialogTrigger>
       <DialogContent 
         className={`overflow-y-auto ${isMobile ? 'h-[100vh] w-[100vw]' : 'max-h-[700px]'}`}
-        onPointerDownOutside={(e) => e.preventDefault()}>
-        
+        >
+        {/* onPointerDownOutside={(e) => e.preventDefault()} */}
         <DialogHeader>
           <DialogTitle>Obituary Form</DialogTitle>
           <DialogDescription>{formSteps[currentStep - 1].description}</DialogDescription>
@@ -73,9 +75,26 @@ const ObituaryForm = () => {
           <Progress value={progress} />
         </DialogHeader>
 
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(() => console.log('Submitting...'))} className="flex flex-col gap-2">
+         <FormProvider {...form}>
+          <form
+            onSubmit={form.handleSubmit((data) => {
+              if (initialData) {
+                updateObituary({ ...data, id: initialData.id });
+              } else {
+                addObituary(data);
+              }
+              form.reset();
+              onClose();
+            })}
+          >
             {React.createElement(formSteps[currentStep - 1].component, { changeStep, currentStep, step })}
+
+            <div className="error-messages">
+              {Object.keys(form.formState.errors).map((field) => {
+                const error = form.formState.errors[field as keyof TObituaryFormSchema];
+                return error ? <p key={field} className="text-red-600">{error.message}</p> : null;
+              })}
+            </div>
           </form>
         </FormProvider>
         

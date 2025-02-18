@@ -15,7 +15,7 @@ const FormButtons = ({ step, changeStep, currentStep, isDisabled }: { step: numb
             }
             {
                 currentStep === step ? (
-                    <Button>
+                    <Button type="submit">
                         Submit
                     </Button>
                 ) : (

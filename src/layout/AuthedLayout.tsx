@@ -1,6 +1,5 @@
 import { Outlet } from '@tanstack/react-router'
-import AppLayout from './appLayout'
-import { ReactNode } from 'react'
+import AppLayout from './AppLayout'
 
 const AuthedLayout = () => {
   return (

@@ -4,7 +4,7 @@ const ReviewForm = ({ step, changeStep, currentStep }: { step: number, changeSte
   return (
     <>
       <h2 className="text-2xl text-center">Review Form</h2>
-
+      
       <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} />
     </>
   );
