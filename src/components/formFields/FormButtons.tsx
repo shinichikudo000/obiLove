@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
-const FormButtons = ({ changeStep, currentStep, isDisabled }: { changeStep: (step: number) => void; currentStep: number, isDisabled?: boolean }) => {
+const FormButtons = ({ step, changeStep, currentStep, isDisabled }: { step: number, changeStep: (step: number) => void; currentStep: number, isDisabled?: boolean }) => {
   return (
     <>
         <Separator />
@@ -14,8 +14,8 @@ const FormButtons = ({ changeStep, currentStep, isDisabled }: { changeStep: (ste
                 )
             }
             {
-                currentStep === 4 ? (
-                    <Button>
+                currentStep === step ? (
+                    <Button type="submit">
                         Submit
                     </Button>
                 ) : (

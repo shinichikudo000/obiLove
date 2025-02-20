@@ -71,6 +71,7 @@ body, #root {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --shadow: 0px 0.2rem 1rem 0px rgba(9, 30, 66, 0.15);
   }
   .dark {
     --background: 0 0% 3.9%;

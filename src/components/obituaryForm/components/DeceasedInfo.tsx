@@ -6,7 +6,7 @@ import TextArrayInput from '../../formFields/TextArrayInput';
 import TextInput from '../../formFields/TextInput';
 import { FormItem } from '@/types/components/formFields/form';
 
-const DeceasedInfo = ({ changeStep, currentStep }: { changeStep: (step: number) => void; currentStep: number }) => {
+const DeceasedInfo = ({ step, changeStep, currentStep }: { step: number, changeStep: (step: number) => void; currentStep: number }) => {
   const { control, watch } = useFormContext<TObituaryFormSchema>();
 
   const formItems: FormItem[] = [
@@ -47,7 +47,7 @@ const DeceasedInfo = ({ changeStep, currentStep }: { changeStep: (step: number) 
         ) : null
       )}
       
-      <FormButtons changeStep={changeStep} currentStep={currentStep} isDisabled={isNextDisabled}/>
+      <FormButtons step={step} changeStep={changeStep} currentStep={currentStep} isDisabled={isNextDisabled}/>
     </>
   );
 };

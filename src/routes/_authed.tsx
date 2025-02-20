@@ -1,4 +1,4 @@
-import AppLayout from '../layout/appLayout';
+import AuthedLayout from '@/layout/AuthedLayout';
 import { useToastStore } from '../store/toastStore';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
@@ -25,8 +25,6 @@ export const Route = createFileRoute('/_authed')({
 
 function AuthedComponent() {
   return (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
+    <AuthedLayout />
   )
 }
